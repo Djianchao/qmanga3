@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import App from './App.vue'
+import "./layout/flexible"
 
 Vue.config.productionTip = false
 
