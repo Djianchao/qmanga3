@@ -1,28 +1,43 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+	<div>
+		<header>
+			<TopBar />
+		</header>
+
+		<keep-alive>
+			<router-view v-if="$route.meta.keepAlive"></router-view>
+		</keep-alive>
+		<router-view v-if="!$route.meta.keepAlive"></router-view>
+
+	</div>
 </template>
-
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+	import TopBar from "@/components/TopBar";
 
-export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+	export default {
+		components: {
+			TopBar,
+		},
+		mounted() {
+			// 设置本地缓存，用来缓存已收藏的漫画
+			if (!localStorage.getItem("favorites")) {
+				localStorage.setItem("favorites", JSON.stringify({}));
+			}
+			window.onresize = () => {
+				this.$store.commit("settings/setMode", document.body.clientWidth);
+			};
+			window.onresize();
+		},
+	};
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style lang="less">
+	body {
+		font-family: sans-serif;
+		background-color: @black !important;
+		color: @white;
+		height: 100%;
+		min-height: 100%;
+		max-width: 100%;
+		line-height: 1;
+	}
 </style>

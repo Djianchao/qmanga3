@@ -1,3 +1,5 @@
+import setting from "@/setting";
+
 (function flexible(window, document) {
   var docEl = document.documentElement;
   var dpr = window.devicePixelRatio || 1;
@@ -14,8 +16,31 @@
 
   // set 1rem = viewWidth / 10
   function setRemUnit() {
-    // 把屏幕一行分成24格，按照1920* 1080 的分辨率来算，则1rem为 80px
-    var rem = docEl.clientWidth / 24;
+    const clientWidth = docEl.clientWidth
+    var cellWidth = 20
+    // 768px 时候切换到移动端模式
+    if (clientWidth <= 768) {
+      cellWidth = 10
+    }
+    else if (clientWidth >= 800 && clientWidth <= 1024) {
+      cellWidth = 16
+    }
+    else if (clientWidth >= 1280 && clientWidth <= 1366) {
+      cellWidth = 18
+      // debugger
+      console.log('setting.cellWidth.....', 16);
+    }
+    else if (clientWidth >= 1600 && clientWidth < 1920) {
+      cellWidth = 20 // 对应的 aside 为3.5
+      console.log('setting.cellWidth.....', 20);
+    }
+    else if (clientWidth >= 1920) {
+      cellWidth = 24
+      console.log('setting.cellWidth.....', 24);
+    }
+
+    var rem = clientWidth / cellWidth;
+    // console.log('setRemUnit...', rem);
     docEl.style.fontSize = rem + "px";
   }
 
