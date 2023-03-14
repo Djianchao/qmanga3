@@ -1,94 +1,93 @@
 <template>
-  <div
-    v-show="$route.name !== 'reader'"
-    class="top-bar"
-  >
-    <img
-      v-if="$store.state.settings.mode == 'mobile'"
-      src="../assets/icons/buger.png"
-      class="buger"
-      :class="{fixBuger: isOpen}"
-      @click="isOpen = !isOpen"
-    >
-    <div
-      v-if="$store.state.settings.mode == 'pc'"
-      class="links"
-    >
-      <router-link
-        v-for="(link, index) in links"
-        :key="index"
-        :to="link.path"
-      >
-        {{ link.name }}
-      </router-link>
-    </div>
-    <div
-      v-else
-      class="mobile menu"
-      :class="{open: isOpen}"
-    >
-      <div class="mlinks">
-        <a
-          v-for="(link, index) in links"
-          :key="index"
-          @click.prevent="go(link.path)"
-        >{{ link.name }}</a>
-      </div>
-    </div>
-    <div class="search-box">
-      <img
-        src="../assets/icons/search-icon.svg"
-        alt="search"
-        @click="search"
-      >
-      <input
-        v-model="keyWord"
-        class="search"
-        type="text"
-        :placeholder="placeholder"
-        @keydown.enter="search"
-      >
-    </div>
-  </div>
+	<div
+		v-show="$route.name !== 'reader'"
+		class="top-bar"
+	>
+		<img
+			v-if="$store.state.settings.mode == 'mobile'"
+			src="../assets/icons/buger.png"
+			class="buger"
+			:class="{fixBuger: isOpen}"
+			@click="isOpen = !isOpen"
+		>
+		<div
+			v-if="$store.state.settings.mode == 'pc'"
+			class="links"
+		>
+			<router-link
+				v-for="(link, index) in links"
+				:key="index"
+				:to="link.path"
+			>
+				{{ link.name }}
+			</router-link>
+		</div>
+		<div
+			v-else
+			class="mobile menu"
+			:class="{open: isOpen}"
+		>
+			<div class="mlinks">
+				<a
+					v-for="(link, index) in links"
+					:key="index"
+					@click.prevent="go(link.path)"
+				>{{ link.name }}</a>
+			</div>
+		</div>
+		<div class="search-box">
+			<svg-icon
+				name='search-icon'
+				@click="search"
+			/>
+			<input
+				v-model="keyWord"
+				class="search"
+				type="text"
+				:placeholder="placeholder"
+				@keydown.enter="search"
+			>
+		</div>
+	</div>
 </template>
 <script>
-export default {
-    name: 'TopBar',
-    data() {
-        return {
-            links: this.$store.state.settings.topBarLinks,
-            placeholder: '搜索你喜欢的漫画 / 作者',
-            keyWord: '',
-            isOpen: false
-        }
-    },
-    methods: {
-        search() {
-            const keyWord = this.keyWord
-            this.$bus.$emit('search', keyWord)
-            if (this.$route.name != 'search') {
-                this.$router.replace({
-                    name: 'search',
-                    query: {
-                        keyWord
-                    }
-                })
-            }
-        },
-        go(path) {
-            let name = path.slice(1)
+	export default {
+		name: "TopBar",
+		data() {
+			return {
+				links: this.$store.state.settings.topBarLinks,
+				placeholder: "搜索你喜欢的漫画 / 作者",
+				keyWord: "",
+				isOpen: false,
+			};
+		},
+		methods: {
+			search() {
+				const keyWord = this.keyWord;
+				this.$bus.$emit("search", keyWord);
+				if (this.$route.name != "search") {
+					this.$router.replace({
+						name: "search",
+						query: {
+							keyWord,
+						},
+					});
+				}
+			},
+			go(path) {
+				let name = path.slice(1);
 
-            if (!(name == this.$route.name)) {
-                // 防止重复push相同的路由
-                this.$router.push({
-                    name: path.slice(1)
-                })
-            }
+				if (!(name == this.$route.name)) {
+					// 防止重复push相同的路由
+					this.$router.push({
+						name: path.slice(1),
+					});
+				}
 
-            this.isOpen = false
-        }
-    }
-}
+				this.isOpen = false;
+			},
+		},
+	};
 </script>
 <style lang="less" scoped>
 	.top-bar {
@@ -137,7 +136,7 @@ export default {
 		align-items: center;
 	}
 
-	.search-box img {
+	.search-box svg {
 		position: absolute;
 		top: calc(50% - 10px);
 		right: 8px;
@@ -146,7 +145,7 @@ export default {
 		opacity: 0.8;
 	}
 
-	.search-box img:hover {
+	.search-box svg:hover {
 		opacity: 1;
 		transform: scale(1.2);
 	}

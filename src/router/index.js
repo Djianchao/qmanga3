@@ -12,6 +12,14 @@ Vue.use(VueRouter)
 const router = new VueRouter({
     routes: [
         {
+            path: '/',
+            name: 'home',
+            component: Home,
+            meta: {
+                keepAlive: true
+            }
+        },
+        {
             path: '/home',
             name: 'home',
             component: Home,
