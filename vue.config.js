@@ -33,5 +33,11 @@ module.exports = defineConfig({
                 symbolId: 'icon-[name]'
             })
             .end()
+        config
+            .plugin('html')
+            .tap(args => {
+                args[0].template = path.join(__dirname, 'src/index.html')
+                return args
+            })
     }
 })
