@@ -6,11 +6,13 @@ const state = {
 
 const mutations = {
     setMode(state, width) {
-        if (width <= 768) {
+        if (width <= 980) {
             state.mode = 'mobile'
         } else {
             state.mode = 'pc'
         }
+
+        console.log(state.mode);
     }
 }
 

@@ -18,9 +18,9 @@
         const clientWidth = docEl.clientWidth
         var cellWidth = 20
         // 768px 时候切换到移动端模式
-        if (clientWidth <= 768) {
-            cellWidth = 10
-        } else if (clientWidth >= 800 && clientWidth <= 1024) {
+        if (clientWidth <= 980) {
+            cellWidth = 6
+        } else if (clientWidth > 980 && clientWidth <= 1024) {
             cellWidth = 16
         } else if (clientWidth >= 1280 && clientWidth <= 1366) {
             cellWidth = 18
@@ -39,7 +39,7 @@
 
     // reset rem unit on page resize
     window.addEventListener('resize', setRemUnit)
-    window.addEventListener('pageshow', function(e) {
+    window.addEventListener('pageshow', function (e) {
         if (e.persisted) {
             setRemUnit()
         }

@@ -138,8 +138,9 @@
 
 	.search-box svg {
 		position: absolute;
-		top: calc(50% - 10px);
+		top: 50%;
 		right: 8px;
+		transform: translateY(-50%);
 		width: 0.25rem;
 		color: inherit;
 		opacity: 0.8;
@@ -194,7 +195,7 @@
 		top: 50%;
 		left: 0;
 		transform: translateY(-50%);
-		width: 1rem;
+		width: 0.8rem;
 	}
 	.open {
 		transform: translateX(0) !important;
