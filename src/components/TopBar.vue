@@ -184,6 +184,7 @@
 		z-index: 3;
 		.mlinks {
 			display: flex;
+			cursor: pointer;
 			justify-content: flex-end;
 		}
 	}
@@ -201,7 +202,8 @@
 	}
 	.fixBuger {
 		position: fixed;
-		top: 4%;
+		top: 0;
 		left: 0;
+		transform: translateY(0);
 	}
 </style>
