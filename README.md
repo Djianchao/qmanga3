@@ -1,24 +1,6 @@
-# qmanga3
+# qmanga 免费的开源的在线漫画阅读网站
 
-## Project setup
-```
-npm install
-```
+[在线体验地址](http://182.43.227.191:8888/)
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
 
-### Compiles and minifies for production
-```
-npm run build
-```
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
