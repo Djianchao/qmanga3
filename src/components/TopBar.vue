@@ -148,7 +148,8 @@
 
 	.search-box svg:hover {
 		opacity: 1;
-		transform: scale(1.2);
+		top: 0;
+		transform: scale(1.1);
 	}
 
 	.top-bar .search {
