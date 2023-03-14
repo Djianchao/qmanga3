@@ -1,58 +1,58 @@
 <template>
-	<div class="favorite">
-		<Title title="我的收藏" />
-		<div class="wrapper">
-			<div
-				class="box"
-				v-for="(info, index) in list"
-				:key="index"
-			>
-				<Manga
-					type="small"
-					:info="info"
-					:isTitle="false"
-				> </Manga>
-				<div
-					class="bottom"
-					@click="remove(info.href)"
-					v-if="list.length"
-				>
-					取消收藏
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="favorite">
+    <Title title="我的收藏" />
+    <div class="wrapper">
+      <div
+        v-for="(info, index) in list"
+        :key="index"
+        class="box"
+      >
+        <Manga
+          type="small"
+          :info="info"
+          :is-title="false"
+        />
+        <div
+          v-if="list.length"
+          class="bottom"
+          @click="remove(info.href)"
+        >
+          取消收藏
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
-	export default {
-		name: "Favorited",
-		data() {
-			return {
-				list: [],
-			};
-		},
-		mounted() {
-			this.getFavorites();
-		},
-		methods: {
-			getFavorites() {
-				const favorites = JSON.parse(localStorage.getItem("favorites"));
-				const data = [];
-				// console.log(favorites);
-				Object.keys(favorites).forEach((key) => {
-					data.push(favorites[key]);
-				});
-				this.list = data;
-			},
-			remove(id) {
-				console.log(id);
-				const favorites = JSON.parse(localStorage.getItem("favorites"));
-				delete favorites[id];
-				localStorage.setItem("favorites", JSON.stringify(favorites));
-				this.getFavorites();
-			},
-		},
-	};
+export default {
+    name: 'Favorited',
+    data() {
+        return {
+            list: []
+        }
+    },
+    mounted() {
+        this.getFavorites()
+    },
+    methods: {
+        getFavorites() {
+            const favorites = JSON.parse(localStorage.getItem('favorites'))
+            const data = []
+            // console.log(favorites);
+            Object.keys(favorites).forEach(key => {
+                data.push(favorites[key])
+            })
+            this.list = data
+        },
+        remove(id) {
+            console.log(id)
+            const favorites = JSON.parse(localStorage.getItem('favorites'))
+            delete favorites[id]
+            localStorage.setItem('favorites', JSON.stringify(favorites))
+            this.getFavorites()
+        }
+    }
+}
 </script>
 <style lang="less" scoped>
 	.favorite {

@@ -1,191 +1,191 @@
 <template>
-	<div v-loading.fullScreen=loading>
-		<!-- <div class="bg-box">
+  <div v-loading.fullScreen="loading">
+    <!-- <div class="bg-box">
 			<img :src="bg" alt />
 		</div> -->
-		<div class="desc">
-			<div class="left-box">
-				<img
-					:src="mangaInfo.cover"
-					alt
-				/>
-				<button
-					@click="handleFvorite"
-					:class="{ favorited: favorited }"
-				>
-					{{ favorited ? "已收藏" : "添加到收藏" }}
-				</button>
-			</div>
-			<div
-				class="summary-box"
-				v-if="$store.state.settings.mode == 'pc'"
-			>
-				<div class="info">
-					<div>
-						<h2 class="title">{{ mangaInfo.name }}</h2>
-						<p class="book-author">{{ mangaInfo.author }}</p>
-					</div>
-					<span>状态:&nbsp; {{ mangaInfo.state }}</span>
-					<span>题材:&nbsp; {{ mangaInfo.type }}</span>
-				</div>
-				<div class="summary">
-					{{ mangaInfo.summary }}
-				</div>
-			</div>
-		</div>
-		<div
-			class="chapter-list"
-			:class="{mobile: $store.state.settings.mode == 'mobile'}"
-		>
-			<div class="top-box">
-				<span>章节列表</span>
+    <div class="desc">
+      <div class="left-box">
+        <img
+          :src="mangaInfo.cover"
+          alt
+        >
+        <button
+          :class="{ favorited: favorited }"
+          @click="handleFvorite"
+        >
+          {{ favorited ? "已收藏" : "添加到收藏" }}
+        </button>
+      </div>
+      <div
+        v-if="$store.state.settings.mode == 'pc'"
+        class="summary-box"
+      >
+        <div class="info">
+          <div>
+            <h2 class="title">{{ mangaInfo.name }}</h2>
+            <p class="book-author">{{ mangaInfo.author }}</p>
+          </div>
+          <span>状态:&nbsp; {{ mangaInfo.state }}</span>
+          <span>题材:&nbsp; {{ mangaInfo.type }}</span>
+        </div>
+        <div class="summary">
+          {{ mangaInfo.summary }}
+        </div>
+      </div>
+    </div>
+    <div
+      class="chapter-list"
+      :class="{mobile: $store.state.settings.mode == 'mobile'}"
+    >
+      <div class="top-box">
+        <span>章节列表</span>
 
-				<div @click="handleReverse()">
-					<img
-						src="../assets/icons/fu.png"
-						v-if="reverse"
-						alt
-					/>
-					<img
-						src="../assets/icons/zhen.png"
-						v-else
-						alt
-					/>
-				</div>
-			</div>
-			<hr />
-			<div class="new">
-				<p>
-					{{ mangaInfo.date }} &nbsp;<a href="">{{ mangaInfo.new }}</a>
-				</p>
-			</div>
-			<div class="list">
-				<div
-					class="list-item"
-					v-for="(book, index) in chapter"
-					:key="index"
-				>
-					<a
-						@click="goReader(book.href)"
-						:x="book.href"
-					>
-						<p class="title">{{ book.title }}</p>
-					</a>
-				</div>
-			</div>
-		</div>
-	</div>
+        <div @click="handleReverse()">
+          <img
+            v-if="reverse"
+            src="../assets/icons/fu.png"
+            alt
+          >
+          <img
+            v-else
+            src="../assets/icons/zhen.png"
+            alt
+          >
+        </div>
+      </div>
+      <hr>
+      <div class="new">
+        <p>
+          {{ mangaInfo.date }} &nbsp;<a href="">{{ mangaInfo.new }}</a>
+        </p>
+      </div>
+      <div class="list">
+        <div
+          v-for="(book, index) in chapter"
+          :key="index"
+          class="list-item"
+        >
+          <a
+            :x="book.href"
+            @click="goReader(book.href)"
+          >
+            <p class="title">{{ book.title }}</p>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-	import { getDeatil } from "@/api/index";
-	export default {
-		name: "MangaDetail",
-		data() {
-			return {
-				// bg: "",
-				mangaInfo: {
-					cover: "",
-					name: "",
-					author: "",
-					summary: "",
-					state: "",
-					type: "",
-					new: "",
-					date: "",
-				},
-				loading: true,
-				reverse: true,
-				chapter: [],
-				favorited: false,
-			};
-		},
-		mounted() {
-			const id = `/${this.$route.params.id}/`;
-			this.favorited = !!JSON.parse(localStorage.getItem("favorites"))[id];
-			getDeatil(id).then((res) => {
-				const root = this.$parse(res.data);
-				this.fillMangaInfo(
-					root.querySelector(".detail-info-1 .container .detail-info")
-				);
-				this.fillSummary(
-					root.querySelector(".detail-info-2 .detail-info-content")
-				);
-				this.fillState(root.querySelector(".detail-list-form-title"));
-				this.fillChapter(root.querySelectorAll("#chapterlistload a"));
+import { getDeatil } from '@/api/index'
+export default {
+    name: 'MangaDetail',
+    data() {
+        return {
+            // bg: "",
+            mangaInfo: {
+                cover: '',
+                name: '',
+                author: '',
+                summary: '',
+                state: '',
+                type: '',
+                new: '',
+                date: ''
+            },
+            loading: true,
+            reverse: true,
+            chapter: [],
+            favorited: false
+        }
+    },
+    mounted() {
+        const id = `/${this.$route.params.id}/`
+        this.favorited = !!JSON.parse(localStorage.getItem('favorites'))[id]
+        getDeatil(id).then(res => {
+            const root = this.$parse(res.data)
+            this.fillMangaInfo(
+                root.querySelector('.detail-info-1 .container .detail-info')
+            )
+            this.fillSummary(
+                root.querySelector('.detail-info-2 .detail-info-content')
+            )
+            this.fillState(root.querySelector('.detail-list-form-title'))
+            this.fillChapter(root.querySelectorAll('#chapterlistload a'))
 
-				this.loading = false;
-			});
-		},
-		methods: {
-			fillMangaInfo(data) {
-				this.mangaInfo.cover = data.firstChild.attrs.src;
-				this.mangaInfo.name = data.querySelector(".detail-info-title").innerText;
-				const spans = data.querySelectorAll(".detail-info-tip span");
-				this.mangaInfo.author = spans[0].lastChild.innerText;
-				this.mangaInfo.state = spans[1].lastChild.innerText;
-				const items = spans[3].querySelectorAll(".item");
-				items.forEach((item) => {
-					this.mangaInfo.type += item.innerText + " ";
-				});
-			},
-			fillSummary(data) {
-				this.mangaInfo.summary = data.innerText.replace(
-					/\[\+\u5c55\u958b\] | \[\-\u6298\u758a\]/,
-					""
-				);
-			},
-			fillState(data) {
-				// this.mangaInfo.state = data.innerText;
-				this.mangaInfo.date = data.childNodes[1].text;
-				const s = data.querySelector(".s");
-				this.mangaInfo.new = s.firstChild.innerText + " " + s.lastChild.innerText;
-			},
-			fillChapter(data) {
-				let obj = {};
-				data.forEach((a) => {
-					obj.href = a.attrs.href;
-					obj.title = a.innerText;
-					this.chapter.push(obj);
-					obj = {};
-				});
-			},
-			handleReverse() {
-				this.reverse = !this.reverse;
-				this.chapter.reverse();
-			},
-			goReader(href) {
-				const params = {
-					cid: href.split("/")[1],
-					mid: this.$route.params.id,
-				};
-				this.$router.push({
-					name: "reader",
-					params: {
-						...params,
-					},
-				});
-			},
-			handleFvorite() {
-				const id = `/${this.$route.params.id}/`;
-				const book = {
-					href: id,
-					src: this.mangaInfo.cover,
-				};
-				const favorites = JSON.parse(localStorage.getItem("favorites"));
-				if (this.favorited) {
-					delete favorites[id];
-					localStorage.setItem("favorites", JSON.stringify(favorites));
-					this.favorited = false;
-				} else {
-					favorites[id] = book;
-					// 放入本地缓存中
-					localStorage.setItem("favorites", JSON.stringify(favorites));
-					this.favorited = true;
-				}
-			},
-		},
-	};
+            this.loading = false
+        })
+    },
+    methods: {
+        fillMangaInfo(data) {
+            this.mangaInfo.cover = data.firstChild.attrs.src
+            this.mangaInfo.name = data.querySelector('.detail-info-title').innerText
+            const spans = data.querySelectorAll('.detail-info-tip span')
+            this.mangaInfo.author = spans[0].lastChild.innerText
+            this.mangaInfo.state = spans[1].lastChild.innerText
+            const items = spans[3].querySelectorAll('.item')
+            items.forEach(item => {
+                this.mangaInfo.type += item.innerText + ' '
+            })
+        },
+        fillSummary(data) {
+            this.mangaInfo.summary = data.innerText.replace(
+                /\[\+\u5c55\u958b\] | \[-\u6298\u758a\]/,
+                ''
+            )
+        },
+        fillState(data) {
+            // this.mangaInfo.state = data.innerText;
+            this.mangaInfo.date = data.childNodes[1].text
+            const s = data.querySelector('.s')
+            this.mangaInfo.new = s.firstChild.innerText + ' ' + s.lastChild.innerText
+        },
+        fillChapter(data) {
+            let obj = {}
+            data.forEach(a => {
+                obj.href = a.attrs.href
+                obj.title = a.innerText
+                this.chapter.push(obj)
+                obj = {}
+            })
+        },
+        handleReverse() {
+            this.reverse = !this.reverse
+            this.chapter.reverse()
+        },
+        goReader(href) {
+            const params = {
+                cid: href.split('/')[1],
+                mid: this.$route.params.id
+            }
+            this.$router.push({
+                name: 'reader',
+                params: {
+                    ...params
+                }
+            })
+        },
+        handleFvorite() {
+            const id = `/${this.$route.params.id}/`
+            const book = {
+                href: id,
+                src: this.mangaInfo.cover
+            }
+            const favorites = JSON.parse(localStorage.getItem('favorites'))
+            if (this.favorited) {
+                delete favorites[id]
+                localStorage.setItem('favorites', JSON.stringify(favorites))
+                this.favorited = false
+            } else {
+                favorites[id] = book
+                // 放入本地缓存中
+                localStorage.setItem('favorites', JSON.stringify(favorites))
+                this.favorited = true
+            }
+        }
+    }
+}
 </script>
 
 <style lang="less" scoped>

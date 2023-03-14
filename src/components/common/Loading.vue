@@ -1,28 +1,28 @@
 <template>
-	<div
-		:class="fullScreen ? 'fullScreen' : 'mask'"
-		v-show="loading"
-	>
-		<div class="box">
-			<div class="cat">
-				<div class="cat__body"></div>
-				<div class="cat__body"></div>
-				<div class="cat__tail"></div>
-				<div class="cat__head"></div>
-			</div>
-		</div>
-	</div>
+  <div
+    v-show="loading"
+    :class="fullScreen ? 'fullScreen' : 'mask'"
+  >
+    <div class="box">
+      <div class="cat">
+        <div class="cat__body" />
+        <div class="cat__body" />
+        <div class="cat__tail" />
+        <div class="cat__head" />
+      </div>
+    </div>
+  </div>
 </template>
 <script>
-	export default {
-		name: "Loading",
-		data() {
-			return {
-				loading: "",
-				fullScreen: false,
-			};
-		},
-	};
+export default {
+    name: 'Loading',
+    data() {
+        return {
+            loading: '',
+            fullScreen: false
+        }
+    }
+}
 </script>
 <style lang="less" scoped>
 	.cat {

@@ -1,134 +1,133 @@
 <template>
-	<div class="slider-list">
-		<Title bg='none'>
-			<div slot="left">
-				<h2>{{ title }}</h2>
-			</div>
-		</Title>
-		<div class="warpper">
-			<div
-				class="list"
-				:style="{ transform: `translateX(${offsetX}px)` }"
-				ref="scrollBox"
-			>
-				<Manga
-					:isTitle="false"
-					type="small"
-					v-for="(info, index) in list"
-					:key="index"
-					:info="info"
-					ref="manga"
-					@getWidth="handleClick"
-				>
-				</Manga>
-			</div>
-			<div
-				class="rbox"
-				ref="right"
-				:class="{ abled: rable }"
-			>
-				<div class="rarrow"></div>
-			</div>
-			<div
-				class="lbox"
-				ref="left"
-				:class="{ abled: lable }"
-			>
-				<div class="larrow"></div>
-			</div>
-		</div>
-	</div>
+  <div class="slider-list">
+    <Title bg="none">
+      <div slot="left">
+        <h2>{{ title }}</h2>
+      </div>
+    </Title>
+    <div class="warpper">
+      <div
+        ref="scrollBox"
+        class="list"
+        :style="{ transform: `translateX(${offsetX}px)` }"
+      >
+        <Manga
+          v-for="(info, index) in list"
+          :key="index"
+          ref="manga"
+          :is-title="false"
+          type="small"
+          :info="info"
+          @getWidth="handleClick"
+        />
+      </div>
+      <div
+        ref="right"
+        class="rbox"
+        :class="{ abled: rable }"
+      >
+        <div class="rarrow" />
+      </div>
+      <div
+        ref="left"
+        class="lbox"
+        :class="{ abled: lable }"
+      >
+        <div class="larrow" />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-	import { getList } from "@/api/index";
+import { getList } from '@/api/index'
 
-	let page = Math.round(Math.random() * 20);
-	export default {
-		name: "SlideList",
-		data() {
-			return {
-				offsetX: 0,
-				list: [],
-				rable: true,
-				lable: false,
-			};
-		},
-		// props 的优先级比 data 的高，一般不要再props中修改数据，如果真要修改则用data
-		props: {
-			title: {
-				type: String,
-			},
-			params: {
-				type: Object,
-			},
-		},
-		mounted() {
-			Promise.all([
-				this.load(this.params, page),
-				this.load(this.params, page + 1),
-			]).then((res) => {
-				res.forEach((data) => {
-					this.list = this.list.concat(data);
-				});
-				this.$nextTick(this.handleClick);
-			});
-		},
-		methods: {
-			handleClick() {
-				const rightBtn = this.$refs.right;
-				const leftBtn = this.$refs.left;
+let page = Math.round(Math.random() * 20)
+export default {
+    name: 'SlideList',
+    // props 的优先级比 data 的高，一般不要再props中修改数据，如果真要修改则用data
+    props: {
+        title: {
+            type: String
+        },
+        params: {
+            type: Object
+        }
+    },
+    data() {
+        return {
+            offsetX: 0,
+            list: [],
+            rable: true,
+            lable: false
+        }
+    },
+    mounted() {
+        Promise.all([
+            this.load(this.params, page),
+            this.load(this.params, page + 1)
+        ]).then(res => {
+            res.forEach(data => {
+                this.list = this.list.concat(data)
+            })
+            this.$nextTick(this.handleClick)
+        })
+    },
+    methods: {
+        handleClick() {
+            const rightBtn = this.$refs.right
+            const leftBtn = this.$refs.left
 
-				rightBtn.addEventListener("click", () => {
-					const width = document.querySelector(".slider-list a").clientWidth + 10;
-					const boxWidth = this.$refs.scrollBox.clientWidth;
-					const scrollViewWidth = width * this.list.length;
-					const oneSlideOffset = 3 * width;
-					// 加上30 是因为第一张图片padding-left 了 30
-					const maxOffset = scrollViewWidth - boxWidth + 30;
+            rightBtn.addEventListener('click', () => {
+                const width = document.querySelector('.slider-list a').clientWidth + 10
+                const boxWidth = this.$refs.scrollBox.clientWidth
+                const scrollViewWidth = width * this.list.length
+                const oneSlideOffset = 3 * width
+                // 加上30 是因为第一张图片padding-left 了 30
+                const maxOffset = scrollViewWidth - boxWidth + 30
 
-					if (this.rable) {
-						// 滑动一步后 距离如果小于maxOffset 则正常滑动
-						if (Math.abs(this.offsetX) + oneSlideOffset < maxOffset) {
-							this.offsetX -= oneSlideOffset;
-							this.lable = true;
-						} else {
-							// 直接滑到底
-							this.offsetX = -maxOffset;
-							this.rable = false;
-						}
-					}
-				});
+                if (this.rable) {
+                    // 滑动一步后 距离如果小于maxOffset 则正常滑动
+                    if (Math.abs(this.offsetX) + oneSlideOffset < maxOffset) {
+                        this.offsetX -= oneSlideOffset
+                        this.lable = true
+                    } else {
+                        // 直接滑到底
+                        this.offsetX = -maxOffset
+                        this.rable = false
+                    }
+                }
+            })
 
-				// 逻辑和 上面类似
-				leftBtn.addEventListener("click", () => {
-					const width = document.querySelector(".slider-list a").clientWidth + 10;
-					const oneSlideOffset = 3 * width;
-					// 加上30 是因为第一张图片padding-left 了 30
-					if (this.lable) {
-						if (Math.abs(this.offsetX) - oneSlideOffset > 0) {
-							this.offsetX += oneSlideOffset;
-							this.rable = true;
-						} else {
-							this.offsetX = 0;
-							this.lable = false;
-						}
-					}
-				});
-			},
-			load(params, page) {
-				return new Promise((resolve) => {
-					getList(params, page)
-						.then((res) => {
-							resolve(this.$fillList(res.data, ".mh-item"));
-						})
-						.catch((err) => {
-							// console.log(err);
-						});
-				});
-			},
-		},
-	};
+            // 逻辑和 上面类似
+            leftBtn.addEventListener('click', () => {
+                const width = document.querySelector('.slider-list a').clientWidth + 10
+                const oneSlideOffset = 3 * width
+                // 加上30 是因为第一张图片padding-left 了 30
+                if (this.lable) {
+                    if (Math.abs(this.offsetX) - oneSlideOffset > 0) {
+                        this.offsetX += oneSlideOffset
+                        this.rable = true
+                    } else {
+                        this.offsetX = 0
+                        this.lable = false
+                    }
+                }
+            })
+        },
+        load(params, page) {
+            return new Promise(resolve => {
+                getList(params, page)
+                    .then(res => {
+                        resolve(this.$fillList(res.data, '.mh-item'))
+                    })
+                    .catch(() => {
+                        // console.log(err);
+                    })
+            })
+        }
+    }
+}
 </script>
 
 <style lang="less" scoped>

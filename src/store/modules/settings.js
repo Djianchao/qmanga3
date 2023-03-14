@@ -1,21 +1,21 @@
 import settings from '@/setting'
 
 const state = {
-  ...settings
+    ...settings
 }
 
 const mutations = {
-  setMode(state, width) {
-    if (width <= 768) {
-      state.mode = 'mobile'
-    } else {
-      state.mode = 'pc'
+    setMode(state, width) {
+        if (width <= 768) {
+            state.mode = 'mobile'
+        } else {
+            state.mode = 'pc'
+        }
     }
-  }
 }
 
 export default {
-  namespaced: true,
-  state,
-  mutations
+    namespaced: true,
+    state,
+    mutations
 }

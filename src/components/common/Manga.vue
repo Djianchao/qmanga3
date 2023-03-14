@@ -1,68 +1,66 @@
 <template>
-	<a @click.prevent="goDetail(info.href)">
-		<div
-			class="wrapper"
-			:class="classObj"
-		>
-			<div :style="type == 'xsmall' ? 'position:relative' : ''">
-				<img
-					:src="info.src"
-					alt
-				/>
-				<slot name="rank">
-
-				</slot>
-			</div>
-			<div
-				class="title-box"
-				v-if="isTitle"
-			>
-				<h3>{{ info.name }}</h3>
-				<p>
-					<span>{{ info.state }}</span>
-					<a
-						v-if="false"
-						:href="info.new"
-					>{{ info.title }}</a>
-				</p>
-			</div>
-		</div>
-	</a>
+  <a @click.prevent="goDetail(info.href)">
+    <div
+      class="wrapper"
+      :class="classObj"
+    >
+      <div :style="type == 'xsmall' ? 'position:relative' : ''">
+        <img
+          :src="info.src"
+          alt
+        >
+        <slot name="rank" />
+      </div>
+      <div
+        v-if="isTitle"
+        class="title-box"
+      >
+        <h3>{{ info.name }}</h3>
+        <p>
+          <span>{{ info.state }}</span>
+          <a
+            v-if="false"
+            :href="info.new"
+          >{{ info.title }}</a>
+        </p>
+      </div>
+    </div>
+  </a>
 </template>
 <script>
-	export default {
-		name: "Manga",
-		props: {
-			isTitle: {
-				type: Boolean,
-				default: true,
-			},
-			type: {
-				type: String,
-				default: "middle",
-			},
-			info: {
-				type: Object,
-				required: true,
-			},
-		},
-		computed: {
-			classObj() {
-				return (this.type === "middle" ? "bb " : "") + this.type + "Class";
-			},
-		},
-		methods: {
-			goDetail(href) {
-				// console.log(href);
-				this.$router.push({
-					name: "detail",
-					params: {
-						id: href.split("/")[1],
-					},
-				});
-			},
-		},
-	};
+export default {
+    name: 'Manga',
+    props: {
+        isTitle: {
+            type: Boolean,
+            default: true
+        },
+        type: {
+            type: String,
+            default: 'middle'
+        },
+        info: {
+            type: Object,
+            required: true
+        }
+    },
+    computed: {
+        classObj() {
+            return (this.type === 'middle' ? 'bb ' : '') + this.type + 'Class'
+        }
+    },
+    methods: {
+        goDetail(href) {
+            // console.log(href);
+            this.$router.push({
+                name: 'detail',
+                params: {
+                    id: href.split('/')[1]
+                }
+            })
+        }
+    }
+}
 </script>
 <style lang="less" scoped>
 	.wrapper {

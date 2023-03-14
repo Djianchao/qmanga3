@@ -1,47 +1,47 @@
 <template>
-	<aside>
-		<div class="ad"></div>
-		<div class="hottest">
-			<header>
-				<Title :right="false">
-					<div class="box" slot="left">
-						<img src="../asset/hot.svg" alt />
-						<h2>{{ title }}</h2>
-					</div>
-				</Title>
-			</header>
-			<div class="hot-list">
-				<Manga
-					type="xsmall"
-					v-for="(manga, index) in mangas"
-					:key="index"
-					:info="manga"
-				>
-					<div class="rank" slot="rank">
-						<img :src="'../asset/rank' + index + '.png'" v-if="index < 3" />
-						<span class="rankNum" v-else> {{ index + 1 }}</span>
-					</div>
-				</Manga>
-			</div>
-		</div>
-	</aside>
+  <aside>
+    <div class="ad" />
+    <div class="hottest">
+      <header>
+        <Title :right="false">
+          <div slot="left" class="box">
+            <img src="../asset/hot.svg" alt>
+            <h2>{{ title }}</h2>
+          </div>
+        </Title>
+      </header>
+      <div class="hot-list">
+        <Manga
+          v-for="(manga, index) in mangas"
+          :key="index"
+          type="xsmall"
+          :info="manga"
+        >
+          <div slot="rank" class="rank">
+            <img v-if="index < 3" :src="'../asset/rank' + index + '.png'">
+            <span v-else class="rankNum"> {{ index + 1 }}</span>
+          </div>
+        </Manga>
+      </div>
+    </div>
+  </aside>
 </template>
 
 <script>
-	import Title from "./Title.vue";
-	import Manga from "./Manga.vue";
-	export default {
-		name: "RightAside",
-		data() {
-			this.title = "随机热门";
-			return {};
-		},
-		props: ["mangas"],
-		components: {
-			Title,
-			Manga,
-		},
-	};
+import Title from './Title.vue'
+import Manga from './Manga.vue'
+export default {
+    name: 'RightAside',
+    components: {
+        Title,
+        Manga
+    },
+    props: ['mangas'],
+    data() {
+        this.title = '随机热门'
+        return {}
+    }
+}
 </script>
 
 <style lang="less" scoped>

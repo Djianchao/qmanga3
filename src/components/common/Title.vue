@@ -1,31 +1,30 @@
 <template>
-	<div class="title-box">
-		<div
-			class="box"
-			:style="`background:${bg};`"
-		>
-			<slot name="left">
-				<h2>{{ title }}</h2>
-			</slot>
-
-		</div>
-	</div>
+  <div class="title-box">
+    <div
+      class="box"
+      :style="`background:${bg};`"
+    >
+      <slot name="left">
+        <h2>{{ title }}</h2>
+      </slot>
+    </div>
+  </div>
 </template>
 <script>
-	export default {
-		name: "Title",
-		data() {
-			return {};
-		},
-		props: {
-			title: String,
-			btnText: String,
-			bg: {
-				type: String,
-				default: "linear-gradient(90deg, #000, transparent)",
-			},
-		},
-	};
+export default {
+    name: 'Title',
+    props: {
+        title: String,
+        btnText: String,
+        bg: {
+            type: String,
+            default: 'linear-gradient(90deg, #000, transparent)'
+        }
+    },
+    data() {
+        return {}
+    }
+}
 </script>
 <style lang="less" scoped>
 	.title-box {

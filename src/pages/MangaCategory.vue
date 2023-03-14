@@ -1,75 +1,75 @@
 <template>
-	<div>
-		<!-- <HotManga /> -->
-		<header>
-			<div
-				class="category"
-				:class="{mobile: $store.state.settings.mode == 'mobile'}"
-			>
-				<div
-					class="bar"
-					v-for="(b, index1) in bars"
-					:key="index1"
-				>
-					<span class="type">{{ b.type }}: </span>
-					<a
-						v-for="(val, index) in b.values"
-						:class="{ active: val.active }"
-						:key="index"
-						@click="handleClick(index1, index, val.num)"
-					>{{ val.title }}</a>
-				</div>
-			</div>
-		</header>
-		<MangaList
-			ref="mlist"
-			type="small2"
-			:api="getCategoryListData"
-			:showTitle="false"
-			:initPage="2"
-		/>
-	</div>
+  <div>
+    <!-- <HotManga /> -->
+    <header>
+      <div
+        class="category"
+        :class="{mobile: $store.state.settings.mode == 'mobile'}"
+      >
+        <div
+          v-for="(b, index1) in bars"
+          :key="index1"
+          class="bar"
+        >
+          <span class="type">{{ b.type }}: </span>
+          <a
+            v-for="(val, index) in b.values"
+            :key="index"
+            :class="{ active: val.active }"
+            @click="handleClick(index1, index, val.num)"
+          >{{ val.title }}</a>
+        </div>
+      </div>
+    </header>
+    <MangaList
+      ref="mlist"
+      type="small2"
+      :api="getCategoryListData"
+      :show-title="false"
+      :init-page="2"
+    />
+  </div>
 </template>
 <script>
-	import MangaList from "../components/MangaList.vue";
-	import { getList } from "../api/index";
+import MangaList from '../components/MangaList.vue'
+import { getList } from '../api/index'
 
-	const params = { type: 0, state: 0, sort: 10 };
-	export default {
-		name: "MangaCategory",
-		components: {
-			MangaList,
-		},
-		mounted() {},
-		data() {
-			return {
-				bars: this.$store.state.settings.categoryMenu,
-			};
-		},
-		methods: {
-			handleClick(index1, index, num) {
-				const a = this.bars[index1].values;
-				a.forEach((e) => {
-					e.active = false;
-				});
+const params = { type: 0, state: 0, sort: 10 }
+export default {
+    name: 'MangaCategory',
+    components: {
+        MangaList
+    },
+    data() {
+        return {
+            bars: this.$store.state.settings.categoryMenu
+        }
+    },
+    mounted() {},
+    methods: {
+        handleClick(index1, index, num) {
+            const a = this.bars[index1].values
+            a.forEach(e => {
+                e.active = false
+            })
 
-				if (index1 == 0) {
-					params.type = num;
-				} else if (index1 == 1) {
-					params.state = num;
-				} else {
-					params.sort = num;
-				}
-				a[index].active = true;
-				console.log(params);
-				this.$refs.mlist.getCategoryData();
-			},
-			getCategoryListData(page) {
-				// debugger;
-				return getList(params, page);
-			},
-		},
-	};
+            if (index1 == 0) {
+                params.type = num
+            } else if (index1 == 1) {
+                params.state = num
+            } else {
+                params.sort = num
+            }
+            a[index].active = true
+            console.log(params)
+            this.$refs.mlist.getCategoryData()
+        },
+        getCategoryListData(page) {
+            // debugger;
+            return getList(params, page)
+        }
+    }
+}
 </script>
 <style lang="less" scoped>
 	header {

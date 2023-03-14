@@ -1,34 +1,33 @@
 <template>
-	<div>
-		<header>
-			<TopBar />
-		</header>
+  <div>
+    <header>
+      <TopBar />
+    </header>
 
-		<keep-alive>
-			<router-view v-if="$route.meta.keepAlive"></router-view>
-		</keep-alive>
-		<router-view v-if="!$route.meta.keepAlive"></router-view>
-
-	</div>
+    <keep-alive>
+      <router-view v-if="$route.meta.keepAlive" />
+    </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive" />
+  </div>
 </template>
 <script>
-	import TopBar from "@/components/TopBar";
+import TopBar from '@/components/TopBar'
 
-	export default {
-		components: {
-			TopBar,
-		},
-		mounted() {
-			// 设置本地缓存，用来缓存已收藏的漫画
-			if (!localStorage.getItem("favorites")) {
-				localStorage.setItem("favorites", JSON.stringify({}));
-			}
-			window.onresize = () => {
-				this.$store.commit("settings/setMode", document.body.clientWidth);
-			};
-			window.onresize();
-		},
-	};
+export default {
+    components: {
+        TopBar
+    },
+    mounted() {
+        // 设置本地缓存，用来缓存已收藏的漫画
+        if (!localStorage.getItem('favorites')) {
+            localStorage.setItem('favorites', JSON.stringify({}))
+        }
+        window.onresize = () => {
+            this.$store.commit('settings/setMode', document.body.clientWidth)
+        }
+        window.onresize()
+    }
+}
 </script>
 <style lang="less">
 	body {
